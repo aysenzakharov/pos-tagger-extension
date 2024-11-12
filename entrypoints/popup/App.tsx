@@ -2,28 +2,10 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import RateUs from './RateUs';
 import { FormControlLabel, FormGroup, Switch } from '@mui/material';
+import { getStorageRecord, hasStorageRecord, setStorageRecord } from '../utils/localStorage';
 
 function App() {
   const [isToggleHighlight, setIsToggleHighlight] = useState<boolean>(false);
-
-  type StorageValueType = string | number | boolean
-
-  const hasStorageRecord = async (key: string): Promise<boolean> => {
-    let items = await browser.storage.local.get(key)
-    return key in items
-  }
-  
-  const getStorageRecord = async (key: string): Promise<StorageValueType> => {
-    let items = await browser.storage.local.get(key)
-    if (key in items) {
-      return items[key]
-    }
-    throw new Error(`An record with key ${key} not found`)
-  }
-
-  const setStorageRecord = async (key: string, value: StorageValueType) => {
-    await browser.storage.local.set({ [key]: value})
-  }
 
   useEffect(() => {
     hasStorageRecord('toggleHighlight')
@@ -32,9 +14,7 @@ function App() {
           // first time run
           return setStorageRecord('toggleHighlight', isToggleHighlight)
         }
-        return new Promise((res: (value: void) => void)  => {
-          res()
-        })
+        return new Promise((res: (value: void) => void)  => res())
       })
       .then(() => {
         return getStorageRecord('toggleHighlight')

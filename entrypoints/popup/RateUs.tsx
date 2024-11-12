@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Rating, Stack, Typography } from '@mui/material'
+import { getStorageRecord, hasStorageRecord, setStorageRecord } from '../utils/localStorage';
 
 export const RATING_KEY = 'app_rating_score'
 
@@ -7,12 +8,18 @@ function RateUs({ negativeFeedbackUrl, positiveFeedbackUrl }: { negativeFeedback
   const [rating, setRating] = useState<number | null>(0)
 
   useEffect(() => {
-    browser.storage.local.get(RATING_KEY)
-      .then((items) => {
-        if (RATING_KEY in items) {
-          let rating = items[RATING_KEY]
-          setRating(+rating)
+    hasStorageRecord(RATING_KEY)
+      .then((value) => {
+        if (!value) {
+          return setStorageRecord(RATING_KEY, 0)
         }
+        return new Promise((res: (value: void) => void) => res())
+      })
+      .then(() => {
+        return getStorageRecord(RATING_KEY)
+      })
+      .then((r) => {
+          setRating(+r)
       })
       .catch((error: Error) => {
         console.error('Read error in browser.storage:', error);
@@ -20,21 +27,17 @@ function RateUs({ negativeFeedbackUrl, positiveFeedbackUrl }: { negativeFeedback
   }, [])
 
   const handleClick = (e: React.SyntheticEvent, r: number | null) => {
-    if (r === null) throw new Error('rating is null')
+    if (r == null) throw new Error('rating is null')
     setRating(r)
-
-    if (r > 3) {
-      window.open(positiveFeedbackUrl, '_blank', 'noreferrer')
-    } else {
-      window.open(negativeFeedbackUrl, '_blank', 'noreferrer')
-    }
-
-    browser.storage.local.set({ [RATING_KEY]: r })
+    setStorageRecord(RATING_KEY, r)
+      .finally(() => {
+        window.open(r > 3 ? positiveFeedbackUrl : negativeFeedbackUrl, '_blank', 'noreferrer')
+      })
   }
 
   return (<>
     <Stack direction={'row'} className="rating-widget" justifyContent={'center'} alignItems={'center'} paddingTop={'3px'}>
-      <Typography variant={'body2'} sx={{ marginRight: '5px' }}>Rate us</Typography>
+      <Typography variant={'body2'} sx={{ marginRight: '5px' }}>Do you enjoy it?</Typography>
       <Rating
         name="size-small"
         value={rating}
