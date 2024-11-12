@@ -1,6 +1,6 @@
 {
-  "name": "pos-tagger-extension",
-  "description": "manifest.json description",
+  "name": "part-of-speech-identifier",
+  "description": "Part of Speech Identifier",
   "private": true,
   "version": "0.0.0",
   "type": "module",
