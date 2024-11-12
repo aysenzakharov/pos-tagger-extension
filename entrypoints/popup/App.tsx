@@ -1,33 +1,79 @@
-import { useState } from 'react';
-import reactLogo from '@/assets/react.svg';
-import wxtLogo from '/wxt.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import RateUs from './RateUs';
+import { FormControlLabel, FormGroup, Switch } from '@mui/material';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [isToggleHighlight, setIsToggleHighlight] = useState<boolean>(false);
+
+  type StorageValueType = string | number | boolean
+
+  const hasStorageRecord = async (key: string): Promise<boolean> => {
+    let items = await browser.storage.local.get(key)
+    return key in items
+  }
+  
+  const getStorageRecord = async (key: string): Promise<StorageValueType> => {
+    let items = await browser.storage.local.get(key)
+    if (key in items) {
+      return items[key]
+    }
+    throw new Error(`An record with key ${key} not found`)
+  }
+
+  const setStorageRecord = async (key: string, value: StorageValueType) => {
+    await browser.storage.local.set({ [key]: value})
+  }
+
+  useEffect(() => {
+    hasStorageRecord('toggleHighlight')
+      .then((value) => {
+        if (!value) {
+          // first time run
+          return setStorageRecord('toggleHighlight', isToggleHighlight)
+        }
+        return new Promise((res: (value: void) => void)  => {
+          res()
+        })
+      })
+      .then(() => {
+        return getStorageRecord('toggleHighlight')
+      })
+      .then((value) => {
+        if (typeof value === 'boolean') {
+          setIsToggleHighlight(value)
+        } else {
+          throw new Error(`Incorrect value type of key ${'toggleHighlight'}: ${typeof value}`)
+        }
+      })
+      .catch((error) => {
+        console.error(`Error: ${error}`);
+      })
+  }, [])
 
   return (
     <>
-      <div>
-        <a href="https://wxt.dev" target="_blank">
-          <img src={wxtLogo} className="logo" alt="WXT logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>WXT + React</h1>
+      <h2>Part-of-speech Identifier</h2>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch checked={isToggleHighlight} onChange={(e, checked) => {
+                setIsToggleHighlight(checked)
+                setStorageRecord('toggleHighlight', checked)
+              }}/>
+            }
+            label="Activate Magic Wand for Text Selection"
+          />
+        </FormGroup>
       </div>
-      <p className="read-the-docs">
-        Click on the WXT and React logos to learn more
+      <p className="read-the-docs" hidden={!isToggleHighlight}>
+      Magic Wand mode is enabled! Select any text on the page with your cursor to see the magic happen.
       </p>
+      <RateUs
+        negativeFeedbackUrl='https://docs.google.com/forms/d/e/1FAIpQLSdn-G6hvmwvxbsGsTwsjEY2IVplfWXHiY6yRv-v5Xj9eyJbeA/viewform'
+        positiveFeedbackUrl=''
+        />
     </>
   );
 }
