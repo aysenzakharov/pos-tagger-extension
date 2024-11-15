@@ -19,4 +19,21 @@ export default defineBackground(() => {
       // When a shared module is updated
     }
   });
+ 
+  browser.runtime.onInstalled.addListener(() => {
+    browser.contextMenus.create({
+      id: "POSContextMenu",
+      title: "Identify parts of speech",
+      contexts: ["selection"], // Показывать меню только при выделении текста
+    });
+  })
+
+  browser.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId === "POSContextMenu" && info.selectionText) {
+      console.log("Selected text:", info.selectionText);
+      const encodedText = encodeURIComponent(info.selectionText);
+      const url = `https://part-of-speech-tool.info/?text=${encodedText}`;
+      browser.tabs.create({ url });
+    }
+  })
 });

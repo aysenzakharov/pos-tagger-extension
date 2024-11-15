@@ -6,7 +6,7 @@ export default defineConfig({
   modules: ['@wxt-dev/module-react'],
   manifest: {
     name: 'Part of Speech Identifier',
-    permissions: ['storage', 'tabs', "activeTab"],
+    permissions: ['storage', 'tabs', "activeTab", 'contextMenus'],
     host_permissions: [
       "https://part-of-speech-tool.info/*",
     ],
