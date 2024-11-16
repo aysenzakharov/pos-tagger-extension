@@ -1,0 +1,31 @@
+/* Стили для текста и всплывающего окна */
+span[data-processed] {
+  position: relative;
+  cursor: pointer;
+  display: inline-block; /* Помогает позиционировать tooltip */
+  border-radius: 0.25em;
+  padding: 0 0.25em;
+  margin: 0.1em;
+}
+
+/* Скрываем всплывающее окно по умолчанию */
+.tooltip {
+  display: none;
+  position: absolute;
+  bottom: 100%; /* Позиционирует tooltip над словом */
+  left: 50%; /* Центрирует tooltip относительно span */
+  transform: translateX(-50%); /* Дополнительная центровка */
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-bottom: 4px;
+  z-index: 1;
+}
+
+/* Стиль для показа всплывающего окна */
+span[data-processed]:hover .tooltip {
+  display: block;
+}

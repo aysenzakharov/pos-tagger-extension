@@ -36,8 +36,8 @@ function RateUs({ negativeFeedbackUrl, positiveFeedbackUrl }: { negativeFeedback
   }
 
   return (<>
-    <div className="py-4 grid grid-cols-2">
-      <p>Do you enjoy it?</p>
+    <div className="flex">
+      <p className='pr-2'>Do you enjoy it?</p>
       <Rating
         name="size-small"
         value={rating}

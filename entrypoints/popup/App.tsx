@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import RateUs from './RateUs';
 import { getStorageRecord, hasStorageRecord, setStorageRecord } from '../utils/localStorage';
+import POSTagger from './POSTagger';
 
 function App() {
   const [isToggleHighlight, setIsToggleHighlight] = useState<boolean>(false);
@@ -31,14 +32,10 @@ function App() {
   }, [])
 
   return (
-    <div className="p-4 bg-white-100 min-w-[20em] mx-auto text-center">
-      <h1 className="text-lg font-semibold text-gray-700">Part of Speech Identifier</h1>
-      <p className='py-2 text-center text-gray-800 italic'>To use this extension, </p>
-      <p className="text-sm text-gray-600">
-        simply select any text on the page, then right-click to open the context menu and select the "Identify parts of speech" option.
-      </p>
-      <p className='py-2 text-center text-gray-800 italic'>or</p>
-      <div className='text-center'>
+    <div className="p-4 bg-white-100 min-w-[40em] mx-auto">
+      <h1 className="text-lg font-semibold text-gray-700 text-center">Part of Speech Identifier</h1>
+      <POSTagger/>
+      <div className='my-4'>
         <a className='text-[#4285f4] uppercase' target='_blank' href="https://part-of-speech-tool.info">Open the web version of this extension</a>
       </div>
       <RateUs
