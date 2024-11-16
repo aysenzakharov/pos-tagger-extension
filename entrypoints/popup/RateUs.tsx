@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Rating, Stack, Typography } from '@mui/material'
+import { Rating } from '@mui/material'
 import { getStorageRecord, hasStorageRecord, setStorageRecord } from '../utils/localStorage';
 
 export const RATING_KEY = 'app_rating_score'
@@ -36,16 +36,15 @@ function RateUs({ negativeFeedbackUrl, positiveFeedbackUrl }: { negativeFeedback
   }
 
   return (<>
-    <Stack direction={'row'} className="rating-widget" justifyContent={'center'} alignItems={'center'} paddingTop={'3px'}>
-      <Typography variant={'body2'} sx={{ marginRight: '5px' }}>Do you enjoy it?</Typography>
+    <div className="py-4 grid grid-cols-2">
+      <p>Do you enjoy it?</p>
       <Rating
         name="size-small"
         value={rating}
         size="small"
-        sx={{ marginRight: '10px' }}
         onChange={handleClick}
       />
-    </Stack>
+    </div>
   </>)
 }
 

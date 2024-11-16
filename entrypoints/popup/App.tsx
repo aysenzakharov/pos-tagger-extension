@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import RateUs from './RateUs';
-import { FormControlLabel, FormGroup, Switch } from '@mui/material';
 import { getStorageRecord, hasStorageRecord, setStorageRecord } from '../utils/localStorage';
 
 function App() {
@@ -32,29 +31,21 @@ function App() {
   }, [])
 
   return (
-    <>
-      <h2>Part-of-speech Identifier</h2>
-      <div className="card">
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch checked={isToggleHighlight} onChange={(e, checked) => {
-                setIsToggleHighlight(checked)
-                setStorageRecord('toggleHighlight', checked)
-              }}/>
-            }
-            label="Activate Magic Wand for Text Selection"
-          />
-        </FormGroup>
-      </div>
-      <p className="read-the-docs" hidden={!isToggleHighlight}>
-      Magic Wand mode is enabled! Select any text on the page with your cursor to see the magic happen.
+    <div className="p-4 bg-white-100 min-w-[20em] mx-auto text-center">
+      <h1 className="text-lg font-semibold text-gray-700">Part of Speech Identifier</h1>
+      <p className='py-2 text-center text-gray-800 italic'>To use this extension, </p>
+      <p className="text-sm text-gray-600">
+        simply select any text on the page, then right-click to open the context menu and select the "Identify parts of speech" option.
       </p>
+      <p className='py-2 text-center text-gray-800 italic'>or</p>
+      <div className='text-center'>
+        <a className='text-[#4285f4] uppercase' target='_blank' href="https://part-of-speech-tool.info">Open the web version of this extension</a>
+      </div>
       <RateUs
         negativeFeedbackUrl='https://docs.google.com/forms/d/e/1FAIpQLSdn-G6hvmwvxbsGsTwsjEY2IVplfWXHiY6yRv-v5Xj9eyJbeA/viewform'
         positiveFeedbackUrl=''
         />
-    </>
+    </div>
   );
 }
 
