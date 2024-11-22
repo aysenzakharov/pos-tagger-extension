@@ -28,11 +28,12 @@ export default defineBackground(() => {
     });
   })
 
-  browser.contextMenus.onClicked.addListener((info, tab) => {
+  browser.contextMenus.onClicked.addListener((info) => {
     if (info.menuItemId === "POSContextMenu" && info.selectionText) {
       console.log("Selected text:", info.selectionText);
       const encodedText = encodeURIComponent(info.selectionText);
-      const url = `https://part-of-speech-tool.info/?text=${encodedText}`;
+      const lang = document.documentElement.lang
+      const url = `https://part-of-speech-tool.info/?text=${encodedText}&lang=${lang}`;
       browser.tabs.create({ url });
     }
   })
