@@ -40,7 +40,7 @@ function App() {
       </div>
       <RateUs
         negativeFeedbackUrl='https://docs.google.com/forms/d/e/1FAIpQLSdn-G6hvmwvxbsGsTwsjEY2IVplfWXHiY6yRv-v5Xj9eyJbeA/viewform'
-        positiveFeedbackUrl=''
+        positiveFeedbackUrl='https://chromewebstore.google.com/detail/part-of-speech-identifier/oimigldckaamflcomakgjkkkahfopfkm'
         />
     </div>
   );
