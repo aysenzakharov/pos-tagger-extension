@@ -5,7 +5,7 @@ export default defineBackground(() => {
       // Code to be executed on first install
       // eg. open a tab with a url
       browser.tabs.create({
-        url: "https://aysenzakharov.github.io/welcome",
+        url: "https://part-of-speech-tool.info/welcome",
       });
     } else if (details.reason === browser.runtime.OnInstalledReason.UPDATE) {
       // When extension is updated
