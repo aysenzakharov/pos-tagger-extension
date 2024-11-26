@@ -2,7 +2,7 @@
   "name": "part-of-speech-identifier",
   "description": "Use Part of Speech Identifier to analyze sentences, check parts of speech, label and find grammar elements easily!",
   "private": true,
-  "version": "1.2.4",
+  "version": "1.2.5",
   "type": "module",
   "scripts": {
     "hlp": "wxt --help",
