@@ -32,8 +32,7 @@ export default defineBackground(() => {
     if (info.menuItemId === "POSContextMenu" && info.selectionText) {
       console.log("Selected text:", info.selectionText);
       const encodedText = encodeURIComponent(info.selectionText);
-      const lang = document.documentElement.lang
-      const url = `https://part-of-speech-tool.info/?text=${encodedText}&lang=${lang}`;
+      const url = `https://part-of-speech-tool.info/?text=${encodedText}`;
       browser.tabs.create({ url });
     }
   })
